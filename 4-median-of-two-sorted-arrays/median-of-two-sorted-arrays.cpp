@@ -14,7 +14,13 @@ public:
         }
         sort(ans.begin(), ans.end());
        int n = ans.size();
-         return n%2?ans[n/2]:(ans[n/2-1]+ans[n/2])/2.0;
+        if (n % 2 != 0) {
+        // If n is odd, return the middle element
+        return ans[n / 2];
+    } else {
+        // If n is even, return the average of the two middle elements
+        return (ans[n / 2 - 1] + ans[n / 2]) / 2.0;
+    }
 
     }
 };
