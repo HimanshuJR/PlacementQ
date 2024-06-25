@@ -3,24 +3,41 @@ public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int p = nums1.size();
         int m = nums2.size();
-        vector<int> ans;
-        int sum;
         
-        for( int i = 0; i< p;i++){
-            ans.push_back(nums1[i]);
+        // Ensure nums1 is the smaller array
+        if (p > m) {
+            return findMedianSortedArrays(nums2, nums1);
         }
-        for( int j = 0; j< m;j++){
-            ans.push_back(nums2[j]);
+        
+        // Binary search variables
+        int low = 0, high = p;
+        int halfLen = (p + m + 1) / 2; // Total number of elements in the left half
+        
+        while (low <= high) {
+            int i = (low + high) / 2;
+            int j = halfLen - i;
+            
+            // Determine the partition position
+            int maxLeft1 = (i == 0) ? INT_MIN : nums1[i - 1];
+            int minRight1 = (i == p) ? INT_MAX : nums1[i];
+            int maxLeft2 = (j == 0) ? INT_MIN : nums2[j - 1];
+            int minRight2 = (j == m) ? INT_MAX : nums2[j];
+            
+            // Check if partition is correct
+            if (maxLeft1 <= minRight2 && maxLeft2 <= minRight1) {
+                // Calculate median
+                if ((p + m) % 2 == 0) {
+                    return (max(maxLeft1, maxLeft2) + min(minRight1, minRight2)) / 2.0;
+                } else {
+                    return max(maxLeft1, maxLeft2);
+                }
+            } else if (maxLeft1 > minRight2) {
+                high = i - 1; // Move partition left in nums1
+            } else {
+                low = i + 1; // Move partition right in nums1
+            }
         }
-        sort(ans.begin(), ans.end());
-       int n = ans.size();
-        if (n % 2 != 0) {
-        // If n is odd, return the middle element
-        return ans[n / 2];
-    } else {
-        // If n is even, return the average of the two middle elements
-        return (ans[n / 2 - 1] + ans[n / 2]) / 2.0;
-    }
-
+         throw invalid_argument("Input arrays are not sorted or are invalid");
+    
     }
 };
