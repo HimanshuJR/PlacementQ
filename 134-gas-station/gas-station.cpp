@@ -1,25 +1,31 @@
+#include <vector>
+
 class Solution {
 public:
-    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+    int canCompleteCircuit(std::vector<int>& gas, std::vector<int>& cost) {
         int n = gas.size();
-       long long int totalgas =0; long long int totalcost = 0;
-       for( int i =0 ;i< n;i++){
-        totalgas+= gas[i]; totalcost+= cost[i];
-       }
-       if( totalcost > totalgas ) return -1;
-       int start = 0;
-       int remaining_gas = 0;
+        int totalGas = 0, totalCost = 0;
+        int currentGas = 0;
+        int start = 0;
 
-       for(int i = 0;i< n;i++){
-        remaining_gas += (gas[i] - cost[i]);
-        if( remaining_gas < 0){
-            start = i+1;
-            remaining_gas = 0;
-
-
+        // Calculate the total gas and total cost
+        for (int i = 0; i < n; ++i) {
+            totalGas += gas[i];
+            totalCost += cost[i];
+            currentGas += gas[i] - cost[i];
+            
+            // If current gas is less than 0, reset the starting point
+            if (currentGas < 0) {
+                start = i + 1;
+                currentGas = 0;
+            }
         }
 
-       }
-       return start;
+        // If the total gas is less than the total cost, it's not possible to complete the circuit
+        if (totalGas < totalCost) {
+            return -1;
+        }
+
+        return start;
     }
 };
