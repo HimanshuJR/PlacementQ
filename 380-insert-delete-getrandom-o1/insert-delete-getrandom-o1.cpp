@@ -1,25 +1,48 @@
 class RandomizedSet {
-    unordered_set<int>s;
+    vector<int> v;
+    unordered_map<int,int> mp;
 public:
-    RandomizedSet() {}
+   
+    RandomizedSet() {
+    }
+
+    bool search(int val){
+
+         if(mp.find(val)!=mp.end())
+            return true;
+         return false;
+
+    }
+
+    
     bool insert(int val) {
-        if(s.find(val) != s.end()){
+
+        if(search(val))
             return false;
-        }
-        s.insert(val);
+
+        v.push_back(val);
+        mp[val] = v.size()-1;
         return true;
     }
+
+    
     bool remove(int val) {
-        if(s.find(val) == s.end()){
+
+        if(!search(val))
             return false;
-        }
-        s.erase(val);
+
+       
+        auto it = mp.find(val);
+        v[it->second] = v.back();
+        v.pop_back();
+        mp[v[it->second]] = it->second;
+        mp.erase(val);
         return true;
     }
+
+   
     int getRandom() {
-        // doing mod to get in range [0, s.size()-1]
-        int pos = rand() % s.size();
-        // std::next returns an iterator pointing to the element after being advanced by certain no. of positions.
-        return *next(s.begin(), pos);
+
+        return v[rand()%v.size()];
     }
 };
