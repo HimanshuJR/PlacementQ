@@ -1,48 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class MinStack {
+private:
+    vector<int> myStack;
+
 public:
-stack <int> s;
-stack<int> mins;
     MinStack() {
-        
     }
     
     void push(int val) {
-        if(mins.empty() || mins.top() >= val){
-            s.push(val);
-            mins.push(val);
-        }
-        else{
-            s.push(val);
-        }
+        myStack.push_back(val);
     }
     
     void pop() {
-        if(s.top() == mins.top()){
-            s.pop();
-            mins.pop();
-        }
-        else{
-            s.pop();
-        }
-
-        
+        myStack.pop_back();
     }
     
     int top() {
-        return s.top();
-        
+        return myStack.back();
     }
     
     int getMin() {
-        return mins.top();
+        int ret = INT_MAX;
+        
+        for (auto x : myStack) 
+            if (x < ret) ret = x;
+        
+        return ret;
     }
 };
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * MinStack* obj = new MinStack();
- * obj->push(val);
- * obj->pop();
- * int param_3 = obj->top();
- * int param_4 = obj->getMin();
- */
