@@ -1,13 +1,16 @@
 class Solution {
 public:
-    vector<int> countBits(int n) {
-        vector<int> result(n + 1);
-        result[0] = 0;
-        
+    std::vector<int> countBits(int n) {
+        std::vector<int> res(n + 1);  // Create a vector to store the results
+        int offset = 1;  // Initialize offset to the smallest power of 2 (1)
+
         for (int i = 1; i <= n; i++) {
-            result[i] = result[i >> 1] + (i & 1);
+            if (i == offset * 2) {  // When i reaches the next power of 2, update offset
+                offset = i;
+            }
+            res[i] = res[i - offset] + 1;  // Calculate res[i] using the offset
         }
-        
-        return result;
+
+        return res;
     }
 };
