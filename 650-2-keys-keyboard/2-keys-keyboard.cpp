@@ -1,21 +1,19 @@
 class Solution {
-private:
-    int targetLength;
-
-    int findMinSteps(int currentLength, int clipboardLength) {
-        if (currentLength == targetLength) return 0;
-        if (currentLength > targetLength) return INT_MAX / 2;
-
-        int copyAndPaste = 2 + findMinSteps(currentLength * 2, currentLength);
-        int pasteOnly = 1 + findMinSteps(currentLength + clipboardLength, clipboardLength);
-
-        return std::min(copyAndPaste, pasteOnly);
-    }
-
 public:
-    int minSteps(int n) {
-        if (n == 1) return 0;
-        targetLength = n;
-        return 1 + findMinSteps(1, 1);
+    static int minSteps(int n) {
+        if (n==1) return 0;// edge case
+        int sum=0, sqrtn=sqrt(n), n0=n;
+        bool isPrime=1;
+        for(int p=2; p<=sqrtn; p++){
+            int exp=0;
+            while (n0%p==0){// small prime p before p^k
+                exp++; 
+                n0/=p;
+            }
+            if (exp) isPrime=0;
+            sum+=exp*p;
+        }
+        if (n0>1) sum+=n0;// n0 must be a prime
+        return (isPrime)?n:sum;
     }
 };
