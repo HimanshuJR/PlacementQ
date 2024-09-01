@@ -1,15 +1,21 @@
 class Solution {
 public:
     bool isPerfectSquare(int num) {
-        long n ;
-        if( num == 1){
+        if( num <2){
             return true;
         }
-        for(long n  = 1;n <num;n++){
-        if(n*n == num){
-            return true;
+        long left = 2 , right = num/2, guess_squared, mid;
+        while(left <= right){
+            mid = (left + right)/2;
+            guess_squared = mid*mid;
+            if(guess_squared == num){
+                return true;
+            }else if(guess_squared > num ){
+                right = mid -1;
+            }else{
+                left = mid+1;
+            }
         }
-    }
-    return false;
+        return false;
     }
 };
