@@ -4,7 +4,7 @@ public:
         if( num <2){
             return true;
         }
-        long left = 2 , right = num/2, guess_squared, mid;
+        long long left = 2 , right = num/2, guess_squared, mid;
         while(left <= right){
             mid = (left + right)/2;
             guess_squared = mid*mid;
