@@ -1,16 +1,21 @@
 class Solution {
 public:
     int similarPairs(vector<string>& words) {
-        int n = words.size();
+        unordered_map<int, int> freqMap; // To store the frequency of each bitmask
         int count = 0;
-        for( int i = 0;i<n;i++){
-            unordered_set<char> set1(words[i].begin(), words[i].end());
-            for(int j = i+1;j<n;j++){
-                unordered_set<char> set2(words[j].begin(), words[j].end());
-                   if(set1 == set2){
-                        count++;
-                }
+        
+        for (const string& word : words) {
+            int bitmask = 0;
+            // Create a bitmask for the word
+            for (char c : word) {
+                bitmask |= (1 << (c - 'a')); // Set the bit corresponding to the character
             }
+            
+            // Count how many similar pairs we have encountered so far for this bitmask
+            count += freqMap[bitmask];
+            
+            // Increment the frequency of this bitmask
+            freqMap[bitmask]++;
         }
         
         return count;
